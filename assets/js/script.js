@@ -12,10 +12,10 @@ const searchCity = async () => {
     x = weather;
     console.log(weather);
 
-    let {dt, main: {temp, humidity}, wind:{speed}, weather:[icon] } = weather.list[0];
+    let {dt, main: {temp, humidity}, wind:{speed}, weather:{icon} } = weather.list[0];
 
     current.innerHTML = `
-        <h2>${city} (${new Date(dt*100).toDateString()}) <img href="https://openweathermap.com/${icon}.png"> <h2>
+        <h2>${city} (${new Date(dt*1000).toDateString()}) <img href="https://openweathermap.com/${icon}.png"> <h2>
 
         <h4>Temp: ${temp}</h4>
         <h4>Wind: ${speed}</h4>
@@ -25,3 +25,17 @@ const searchCity = async () => {
 
 searchBtn.addEventListener("click", searchCity);
 
+
+
+
+// fetch (url, {
+//     method: 'GET', 
+//     credentials: 'same-origin', 
+//     redirect: 'follow',
+// })
+//     .then(function (response) {
+//         return response.json();
+//     })
+//     .then(function (data) {
+//         console.log(data);
+//     });
