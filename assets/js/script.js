@@ -56,28 +56,44 @@ searchBtn.addEventListener("click", searchCity);
 function saveCity () {
     searchHistory = [];
     let lowerCased = city.toLowerCase();
-    oldCities = localStorage.getItem("stored-cities")
+    oldCities = localStorage.getItem("stored-cities");
+
     if (oldCities !== null) {
         var tempCities = [];
         tempCities.push(oldCities);
         tempCities.push(lowerCased);
         searchHistory = tempCities;
     } else {
-    searchHistory.push(lowerCased);
+        searchHistory.push(lowerCased);
     }
 
     localStorage.setItem("stored-cities", searchHistory);
 };
 
 
+function loadHistory () {
+    getCities = localStorage.getItem("stored-cities", city);
 
-getCity = localStorage.getItem("stored-cities", city);
-// historyList.innerHTML = searchHistory;
+    if (getCities === null) {
+        return;
+    } 
+
+    getCities.forEach(city => {
+        historyList.innerHTML += `<button onclick="searchCity('${this}')">${this}</button>`;
+    });
+};
+
+loadHistory ();
 
 
-searchHistory.forEach(city => {
-    historyList.innerHTML += `<button onclick="searchCity('${city}')">${city}</button>`;
-  });
+
+
+
+
+// for (var i = 0; i < getCities.length; i++) {
+//     historyList.innerHTML += `<button onclick="searchCity(`getCities[i]`)">`getCities[i]`</button>`;
+// };
+
 
 
 
