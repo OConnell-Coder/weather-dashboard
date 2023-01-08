@@ -40,7 +40,7 @@ aside {
 #current {
     border: 2px solid black;
     border-radius: 8px;
-    width: 100%;
+    width: 97%;
     background-color: rgb(22, 165, 165);
     padding: 10px;
     margin: 10px;
@@ -58,4 +58,22 @@ aside {
     margin: 5px;
     border-radius: 8px;
     margin: 10px;
+}
+
+#search {
+    border-radius: 2px;
+}
+
+#search:hover {
+    background-color: rgb(203, 202, 202);
+}
+
+#search:active {
+    box-shadow: inset;
+    background-color: rgb(165, 165, 165);
+}
+
+#search:focus {
+    box-shadow: inset;
+    background-color: rgb(165, 165, 165);
 }
