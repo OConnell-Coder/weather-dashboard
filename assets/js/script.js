@@ -2,9 +2,8 @@ var searchBtn = document.getElementById("search");
 var input = document.getElementById("input");
 var historyList = document.getElementById("history");
 var city;
-var searchHistory = [];
 var getCities;
-
+var searchHistory;
 
 
 const searchCity = async () => {
@@ -15,6 +14,8 @@ const searchCity = async () => {
     let url = `https://api.openweathermap.org/data/2.5/forecast?appid=${apiKey}&units=imperial&limit=1&q=${city}`;
 
     let weather = await (await fetch(url)).json();
+
+    console.log(weather);
 
     let {dt, main: {temp, humidity}, wind:{speed}, weather:[{icon}] } = weather.list[0];
 
@@ -44,36 +45,60 @@ const searchCity = async () => {
     `;
     }
 
-    saveCity();
+    saveCity(city);
 };
 
 
 searchBtn.addEventListener("click", searchCity);
 
 
-function saveCity() {
-    searchHistory.push(city);
-  
-    localStorage.setItem("stored-cities", city);
+
+function saveCity () {
+    searchHistory = [];
+    let lowerCased = city.toLowerCase();
+    oldCities = localStorage.getItem("stored-cities")
+    if (oldCities !== null) {
+        var tempCities = [];
+        tempCities.push(oldCities);
+        tempCities.push(lowerCased);
+        searchHistory = tempCities;
+    } else {
+    searchHistory.push(lowerCased);
+    }
+
+    localStorage.setItem("stored-cities", searchHistory);
 };
 
 
+
+getCity = localStorage.getItem("stored-cities", city);
 // historyList.innerHTML = searchHistory;
 
 
-
-// getCity = localStorage.getItem("city", city);
-
-// searchHistory.forEach(city => {
-//     historyList.innerHTML += `<button onclick="searchCity('${getCity}')">${city}</button>`;
-//   });
-
+searchHistory.forEach(city => {
+    historyList.innerHTML += `<button onclick="searchCity('${city}')">${city}</button>`;
+  });
 
 
 
 // for (var i = 0; i < searchHistory.length; i++ ) {
-//     getCity = localStorage.getItem("city", city);
-//     var listItem = document.createElement("p");
-//     historyList.appendChild(listItem);
-//     listItem.textContent = getCity;
+//     var listItem = $("<li>", {
+//         class: "search-history-item"
+//     })
+//     listEl.append(listItem);
+//     var anchor = $("<a>", {
+//         href: ""
+//     })
 //   };
+
+
+//   document.createElement("p");
+//   historyList.appendChild(listItem);
+//   listItem.textContent = getCity;
+
+// function saveCity() {
+    
+//     searchHistory.push(city);
+//     localStorage.setItem("stored-cities", city);
+  
+// };
