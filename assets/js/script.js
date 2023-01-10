@@ -2,7 +2,7 @@ var searchBtn = document.getElementById("search");
 var input = document.getElementById("input");
 var historyList = document.getElementById("history");
 var city;
-var getCities;
+var getCities = [];
 var searchHistory;
 
 
@@ -52,69 +52,42 @@ const searchCity = async () => {
 searchBtn.addEventListener("click", searchCity);
 
 
-
-function saveCity () {
-    searchHistory = [];
+function saveCity (city) {
+    var searchHistory = [];
     let lowerCased = city.toLowerCase();
     oldCities = localStorage.getItem("stored-cities");
 
     if (oldCities !== null) {
         var tempCities = [];
         tempCities.push(oldCities);
+
+        if (oldCities.includes(lowerCased)) {
+            return;
+        };
+
         tempCities.push(lowerCased);
         searchHistory = tempCities;
     } else {
         searchHistory.push(lowerCased);
+    };
+    localStorage.setItem("stored-cities", (searchHistory));
+
+    loadHistory(searchHistory); 
+};
+
+
+function loadHistory(searchHistory) {
+    for (var i = 0; i < searchHistory.length; i++) {
+        var searchCity = $("<p>", {
+            // class: "nav-item"
+        })
+        historyList.append(searchCity);
+        var cityLink = $("<a>", {
+            href: "#",
+            // class:  ,
+            text: searchHistory[i]
+        })
+        searchCity.append(cityLink);
     }
-
-    localStorage.setItem("stored-cities", searchHistory);
 };
 
-
-function loadHistory () {
-    getCities = localStorage.getItem("stored-cities", city);
-
-    if (getCities === null) {
-        return;
-    } 
-
-    getCities.forEach(city => {
-        historyList.innerHTML += `<button onclick="searchCity('${this}')">${this}</button>`;
-    });
-};
-
-loadHistory ();
-
-
-
-
-
-
-// for (var i = 0; i < getCities.length; i++) {
-//     historyList.innerHTML += `<button onclick="searchCity(`getCities[i]`)">`getCities[i]`</button>`;
-// };
-
-
-
-
-// for (var i = 0; i < searchHistory.length; i++ ) {
-//     var listItem = $("<li>", {
-//         class: "search-history-item"
-//     })
-//     listEl.append(listItem);
-//     var anchor = $("<a>", {
-//         href: ""
-//     })
-//   };
-
-
-//   document.createElement("p");
-//   historyList.appendChild(listItem);
-//   listItem.textContent = getCity;
-
-// function saveCity() {
-    
-//     searchHistory.push(city);
-//     localStorage.setItem("stored-cities", city);
-  
-// };
