@@ -4,7 +4,9 @@ var historyList = document.getElementById("history");
 var city;
 var getCities = [];
 var searchHistory;
+var store;
 
+loadHistory();
 
 const searchCity = async () => {
     city = input.value;
@@ -14,8 +16,6 @@ const searchCity = async () => {
     let url = `https://api.openweathermap.org/data/2.5/forecast?appid=${apiKey}&units=imperial&limit=1&q=${city}`;
 
     let weather = await (await fetch(url)).json();
-
-    console.log(weather);
 
     let {dt, main: {temp, humidity}, wind:{speed}, weather:[{icon}] } = weather.list[0];
 
@@ -53,41 +53,28 @@ searchBtn.addEventListener("click", searchCity);
 
 
 function saveCity (city) {
-    var searchHistory = [];
     let lowerCased = city.toLowerCase();
-    oldCities = localStorage.getItem("stored-cities");
-
-    if (oldCities !== null) {
-        var tempCities = [];
-        tempCities.push(oldCities);
-
-        if (oldCities.includes(lowerCased)) {
-            return;
-        };
-
-        tempCities.push(lowerCased);
-        searchHistory = tempCities;
-    } else {
-        searchHistory.push(lowerCased);
-    };
-    localStorage.setItem("stored-cities", (searchHistory));
-
-    loadHistory(searchHistory); 
+    if(!store.includes(lowerCased)) store.push(lowerCased);
+    localStorage.setItem("cities",JSON.stringify(store));
+    loadHistory();
 };
 
 
-function loadHistory(searchHistory) {
-    for (var i = 0; i < searchHistory.length; i++) {
-        var searchCity = $("<p>", {
-            // class: "nav-item"
-        })
-        historyList.append(searchCity);
-        var cityLink = $("<a>", {
-            href: "#",
-            // class:  ,
-            text: searchHistory[i]
-        })
-        searchCity.append(cityLink);
+async function loadHistory() {
+    store = localStorage.cities ? JSON.parse(localStorage.cities) : [];
+
+    historyList.innerHTML = "";
+
+    if(store.length) {
+
+        store.forEach((city) => {
+            historyList.innerHTML += `<button onclick="searchAgain('${city}')">${city}</button>`
+        });
     }
+
 };
 
+function searchAgain (city) {
+    input.value = city;
+    searchCity();
+};

@@ -60,8 +60,12 @@ aside {
     margin: 10px;
 }
 
+#input {
+    border-radius: 5px;
+}
+
 #search {
-    border-radius: 2px;
+    border-radius: 5px;
 }
 
 #search:hover {
@@ -74,6 +78,30 @@ aside {
 }
 
 #search:focus {
+    box-shadow: inset;
+    background-color: rgb(165, 165, 165);
+}
+
+#history {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+#history button {
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+#history button:hover {
+    background-color: rgb(203, 202, 202);
+}
+
+#history button:active {
+    box-shadow: inset;
+    background-color: rgb(165, 165, 165);
+}
+
+#history button:focus {
     box-shadow: inset;
     background-color: rgb(165, 165, 165);
 }
